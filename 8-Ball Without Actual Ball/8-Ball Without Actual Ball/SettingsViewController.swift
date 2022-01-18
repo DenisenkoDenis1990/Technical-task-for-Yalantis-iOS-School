@@ -23,7 +23,7 @@ let defaults = UserDefaults.standard
         navigationController?.navigationBar.prefersLargeTitles = false
         tableView.tableFooterView = UIView()
         view.backgroundColor = .systemGray5
-        answers = defaults.stringArray(forKey: "answers")!
+        answers = defaults.stringArray(forKey: "answers") ?? [String]()
         
         
         
@@ -49,7 +49,9 @@ let defaults = UserDefaults.standard
         let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") {
             action, indexPath in
             self.answers.remove(at: indexPath.row)
+            self.defaults.setValue(self.answers, forKey: "answers")
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            
         }
         return[deleteAction]
     }
