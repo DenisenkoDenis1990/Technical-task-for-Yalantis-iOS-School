@@ -19,12 +19,7 @@ class HomeViewController: UIViewController {
         callToShakeText.text = """
             Need some answers?
             Shake me
-            """
-        
-       if let vc = storyboard?.instantiateViewController(identifier: "Settings") as? SettingsViewController
-       {
-        hardcodedAnswers = vc.defaults.stringArray(forKey: "answers")!
-       }
+            """    
         
     }
     
@@ -41,7 +36,15 @@ class HomeViewController: UIViewController {
                 
             }
             else {
-                magic.answer = hardcodedAnswers.randomElement()!
+                if let vc = storyboard?.instantiateViewController(identifier: "Settings") as? SettingsViewController
+                {
+                 hardcodedAnswers = vc.defaults.stringArray(forKey: "answers") ?? [String]()
+                
+                }
+                magic.answer = hardcodedAnswers.randomElement() ?? """
+                    Oops, something going wrong.
+                    Go to settings & add answers!
+                    """
             }
             callToShakeText.text = magic.answer
             
